@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A responsive, keyboard-accessible calculator built with vanilla JavaScript."
+    />
+    <title>Calculator &middot; Frontend Practicum</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body>
+    <main class="app">
+      <section class="calculator" aria-labelledby="calculator-title">
+        <header class="calculator__header">
+          <h1 class="calculator__title" id="calculator-title">Calculator</h1>
+          <p class="calculator__subtitle">Keyboard ready</p>
+        </header>
+
+        <!-- Display: aria-live="polite" makes screen readers announce every
+           value change without interrupting the user mid-action. -->
+        <div class="display" id="displayWrap">
+          <p class="display__expression" id="expression"></p>
+          <div class="display__main">
+            <svg
+              class="display__warning"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+              />
+              <path d="M12 9v4M12 17h.01" />
+            </svg>
+            <output
+              class="display__value"
+              id="display"
+              aria-live="polite"
+              aria-atomic="true"
+              >0</output
+            >
+          </div>
+        </div>
+
+        <!-- Keypad: every button carries one of three data-* attributes
+           (data-digit, data-operator, data-action). A single click listener
+           reads them via closest('.key'), so adding a key is HTML-only. -->
+        <div class="keypad" id="keypad">
+          <button type="button" class="key key--clear" data-action="clear">
+            AC
+          </button>
+
+          <button
+            type="button"
+            class="key key--function"
+            data-action="backspace"
+            aria-label="Backspace"
+          >
+            <svg
+              class="key__icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                d="M9 5h9.5A2.5 2.5 0 0 1 21 7.5v9a2.5 2.5 0 0 1-2.5 2.5H9L3 12 9 5Z"
+              />
+              <path d="M12.5 9.75 17 14.25M17 9.75l-4.5 4.5" />
+            </svg>
+          </button>
+
+          <button type="button" class="key key--operator" data-operator="/">
+            ÷
+          </button>
+          <button type="button" class="key key--operator" data-operator="*">
+            ×
+          </button>
+
+          <button type="button" class="key" data-digit="7">7</button>
+          <button type="button" class="key" data-digit="8">8</button>
+          <button type="button" class="key" data-digit="9">9</button>
+          <button type="button" class="key key--operator" data-operator="-">
+            −
+          </button>
+
+          <button type="button" class="key" data-digit="4">4</button>
+          <button type="button" class="key" data-digit="5">5</button>
+          <button type="button" class="key" data-digit="6">6</button>
+          <button type="button" class="key key--operator" data-operator="+">
+            +
+          </button>
+
+          <button type="button" class="key" data-digit="1">1</button>
+          <button type="button" class="key" data-digit="2">2</button>
+          <button type="button" class="key" data-digit="3">3</button>
+          <button
+            type="button"
+            class="key key--equals"
+            data-action="equals"
+            aria-label="Equals"
+          >
+            =
+          </button>
+
+          <button type="button" class="key key--zero" data-digit="0">0</button>
+          <button
+            type="button"
+            class="key"
+            data-action="decimal"
+            aria-label="Decimal point"
+          >
+            .
+          </button>
+        </div>
+      </section>
+
+      <!-- Footer: a visible legend for the keyboard shortcuts. -->
+      <footer class="app__footer">
+        <p class="app__hint">
+          <kbd>0</kbd>–<kbd>9</kbd> <kbd>+</kbd> <kbd>−</kbd> <kbd>*</kbd>
+          <kbd>/</kbd> <kbd>.</kbd>
+          <span class="app__hint-sep" aria-hidden="true">·</span>
+          <kbd>Enter</kbd> equals
+          <span class="app__hint-sep" aria-hidden="true">·</span>
+          <kbd>Backspace</kbd> deletes
+          <span class="app__hint-sep" aria-hidden="true">·</span>
+          <kbd>Esc</kbd> clears
+        </p>
+      </footer>
+    </main>
+
+    <!-- Loaded at the end so the DOM is fully parsed before they run.
+       Order matters: calculator.js defines the handlers keyboard.js uses. -->
+    <script src="js/calculator.js"></script>
+    <script src="js/keyboard.js"></script>
+  </body>
+</html>
