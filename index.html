@@ -8,6 +8,7 @@
       content="A responsive, keyboard-accessible calculator built with vanilla JavaScript."
     />
     <title>Calculator &middot; Frontend Practicum</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
@@ -48,8 +49,18 @@
         <!-- Keypad: every button carries one of three data-* attributes
            (data-digit, data-operator, data-action). A single click listener
            reads them via closest('.key'), so adding a key is HTML-only. -->
-        <div class="keypad" id="keypad">
-          <button type="button" class="key key--clear" data-action="clear">
+        <div
+          class="keypad"
+          id="keypad"
+          role="group"
+          aria-label="Calculator keypad"
+        >
+          <button
+            type="button"
+            class="key key--clear"
+            data-action="clear"
+            aria-label="Clear all"
+          >
             AC
           </button>
 
@@ -120,7 +131,9 @@
       <!-- Footer: a visible legend for the keyboard shortcuts. -->
       <footer class="app__footer">
         <p class="app__hint">
-          <kbd>0</kbd>–<kbd>9</kbd> <kbd>+</kbd> <kbd>−</kbd> <kbd>*</kbd>
+          <kbd>0</kbd>–<kbd>9</kbd> <kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd>/<kbd
+            >x</kbd
+          >
           <kbd>/</kbd> <kbd>.</kbd>
           <span class="app__hint-sep" aria-hidden="true">·</span>
           <kbd>Enter</kbd> equals
