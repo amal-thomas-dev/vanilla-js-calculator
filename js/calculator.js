@@ -14,19 +14,19 @@ const EXPONENTIAL_PRECISION = 6;
 const KEY_FLASH_DURATION = 130;
 const ANIMATION_DURATION = 600;
 
-const ERROR_DIVIDE_BY_ZERO = "Divide by 0? Nope.";
-const ERROR_OUT_OF_RANGE = "Out of range";
-const ERROR_UNDEFINED = "Undefined result";
+const ERROR_DIVIDE_BY_ZERO = 'Divide by 0? Nope.';
+const ERROR_OUT_OF_RANGE = 'Out of range';
+const ERROR_UNDEFINED = 'Undefined result';
 
-const OPERATOR_SYMBOLS = { "+": "+", "-": "−", "*": "×", "/": "÷" };
+const OPERATOR_SYMBOLS = { '+': '+', '-': '−', '*': '×', '/': '÷' };
 
 /* Frozen so the template can never be mutated by accident. */
 const INITIAL_STATE = Object.freeze({
-  displayValue: "0",
+  displayValue: '0',
   firstOperand: null,
   operator: null,
   awaitingOperand: true,
-  expression: "",
+  expression: '',
   hasError: false,
 });
 
@@ -54,11 +54,16 @@ function divide(a, b) {
    callers can tell a real result apart from an error signal. */
 function operate(operator, a, b) {
   switch (operator) {
-    case "+": return add(a, b);
-    case "-": return subtract(a, b);
-    case "*": return multiply(a, b);
-    case "/": return divide(a, b);
-    default: return null;
+    case '+':
+      return add(a, b);
+    case '-':
+      return subtract(a, b);
+    case '*':
+      return multiply(a, b);
+    case '/':
+      return divide(a, b);
+    default:
+      return null;
   }
 }
 
@@ -77,14 +82,14 @@ function formatNumber(value) {
      exponent — strip both for a cleaner readout. */
   return rounded
     .toExponential(EXPONENTIAL_PRECISION)
-    .replace(/\.?0+e/, "e")
-    .replace("e+", "e");
+    .replace(/\.?0+e/, 'e')
+    .replace('e+', 'e');
 }
 
 /* Counts digits only — the sign and decimal point don't count toward
    the user's input limit. */
 function countDigits(value) {
-  return value.replace(/[-.]/g, "").length;
+  return value.replace(/[-.]/g, '').length;
 }
 
 /* ----------------------------------------------------------------------------
@@ -101,10 +106,10 @@ function resetState() {
    DOM references
    ---------------------------------------------------------------------------- */
 
-const displayWrapEl = document.getElementById("displayWrap");
-const displayEl = document.getElementById("display");
-const expressionEl = document.getElementById("expression");
-const keypadEl = document.getElementById("keypad");
+const displayWrapEl = document.getElementById('displayWrap');
+const displayEl = document.getElementById('display');
+const expressionEl = document.getElementById('expression');
+const keypadEl = document.getElementById('keypad');
 const decimalKeyEl = keypadEl.querySelector('[data-action="decimal"]');
 
 /* ----------------------------------------------------------------------------
@@ -118,19 +123,19 @@ function render() {
 
   decimalKeyEl.disabled =
     state.hasError ||
-    (!state.awaitingOperand && state.displayValue.includes("."));
+    (!state.awaitingOperand && state.displayValue.includes('.'));
 
   const length = state.displayValue.length;
   displayEl.classList.toggle(
-    "display__value--medium",
+    'display__value--medium',
     !state.hasError && length > 9 && length <= MAX_INPUT_DIGITS + 2,
   );
   displayEl.classList.toggle(
-    "display__value--small",
+    'display__value--small',
     !state.hasError && length > MAX_INPUT_DIGITS + 2,
   );
-  displayEl.classList.toggle("display__value--error", state.hasError);
-  displayWrapEl.classList.toggle("display--error", state.hasError);
+  displayEl.classList.toggle('display__value--error', state.hasError);
+  displayWrapEl.classList.toggle('display--error', state.hasError);
 }
 
 /* ----------------------------------------------------------------------------
@@ -142,17 +147,17 @@ function showError(message) {
   state.firstOperand = null;
   state.operator = null;
   state.awaitingOperand = true;
-  state.expression = "";
+  state.expression = '';
   state.hasError = true;
 
   render();
 
   /* One-shot animation classes, removed after they've played. */
-  displayWrapEl.classList.add("display--pulse");
-  displayEl.classList.add("display__value--shake");
+  displayWrapEl.classList.add('display--pulse');
+  displayEl.classList.add('display__value--shake');
   window.setTimeout(() => {
-    displayWrapEl.classList.remove("display--pulse");
-    displayEl.classList.remove("display__value--shake");
+    displayWrapEl.classList.remove('display--pulse');
+    displayEl.classList.remove('display__value--shake');
   }, ANIMATION_DURATION);
 }
 
@@ -185,7 +190,7 @@ function inputDigit(digit) {
     state.awaitingOperand = false;
   } else if (countDigits(state.displayValue) < MAX_INPUT_DIGITS) {
     state.displayValue =
-      state.displayValue === "0" ? digit : state.displayValue + digit;
+      state.displayValue === '0' ? digit : state.displayValue + digit;
   }
 
   render();
@@ -195,10 +200,10 @@ function inputDecimal() {
   if (state.hasError) resetState();
 
   if (state.awaitingOperand) {
-    state.displayValue = "0.";
+    state.displayValue = '0.';
     state.awaitingOperand = false;
-  } else if (!state.displayValue.includes(".")) {
-    state.displayValue += ".";
+  } else if (!state.displayValue.includes('.')) {
+    state.displayValue += '.';
   }
 
   render();
@@ -212,8 +217,7 @@ function chooseOperator(nextOperator) {
   /* Two operators in a row — just swap the pending one. */
   if (state.operator !== null && state.awaitingOperand) {
     state.operator = nextOperator;
-    state.expression =
-      `${formatNumber(state.firstOperand)} ${OPERATOR_SYMBOLS[nextOperator]}`;
+    state.expression = `${formatNumber(state.firstOperand)} ${OPERATOR_SYMBOLS[nextOperator]}`;
     render();
     return;
   }
@@ -234,8 +238,7 @@ function chooseOperator(nextOperator) {
 
   state.operator = nextOperator;
   state.awaitingOperand = true;
-  state.expression =
-    `${formatNumber(state.firstOperand)} ${OPERATOR_SYMBOLS[nextOperator]}`;
+  state.expression = `${formatNumber(state.firstOperand)} ${OPERATOR_SYMBOLS[nextOperator]}`;
 
   render();
 }
@@ -278,7 +281,7 @@ function backspace() {
   if (state.awaitingOperand) return;
 
   let next = state.displayValue.slice(0, -1);
-  if (next === "" || next === "-") next = "0";
+  if (next === '' || next === '-') next = '0';
 
   state.displayValue = next;
   render();
@@ -297,16 +300,16 @@ const flashTimers = new WeakMap();
 
 function flashKey(selector) {
   const key = keypadEl.querySelector(selector);
-  if (!key) return;
+  if (!key || key.disabled) return;
 
   const pending = flashTimers.get(key);
   if (pending !== undefined) window.clearTimeout(pending);
 
-  key.classList.add("key--active");
+  key.classList.add('key--active');
   flashTimers.set(
     key,
     window.setTimeout(() => {
-      key.classList.remove("key--active");
+      key.classList.remove('key--active');
       flashTimers.delete(key);
     }, KEY_FLASH_DURATION),
   );
@@ -319,7 +322,7 @@ function flashKey(selector) {
 function handleKeypadClick(event) {
   /* closest() lets one listener serve every key, including clicks on
      nested elements such as the SVG inside the backspace button. */
-  const key = event.target.closest(".key");
+  const key = event.target.closest('.key');
   if (!key || key.disabled) return;
 
   const { digit, operator, action } = key.dataset;
@@ -328,14 +331,18 @@ function handleKeypadClick(event) {
   if (operator !== undefined) return chooseOperator(operator);
 
   switch (action) {
-    case "decimal": return inputDecimal();
-    case "equals": return evaluate();
-    case "clear": return clearAll();
-    case "backspace": return backspace();
+    case 'decimal':
+      return inputDecimal();
+    case 'equals':
+      return evaluate();
+    case 'clear':
+      return clearAll();
+    case 'backspace':
+      return backspace();
   }
 }
 
-keypadEl.addEventListener("click", handleKeypadClick);
+keypadEl.addEventListener('click', handleKeypadClick);
 
 /* ----------------------------------------------------------------------------
    Boot
