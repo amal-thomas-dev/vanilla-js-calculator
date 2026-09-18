@@ -30,10 +30,10 @@
   --shadow-key: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
 
   --font-base:
-    "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   --font-mono:
-    "SFMono-Regular", ui-monospace, "Cascadia Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+    'SFMono-Regular', ui-monospace, 'Cascadia Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
 
   --transition-fast: 0.12s ease;
   --transition-press: 0.08s ease;
@@ -226,6 +226,30 @@ button {
   overflow: hidden;
 }
 
+.display__copy {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+.display__copy:hover {
+  color: var(--color-text);
+  background: rgba(148, 163, 184, 0.12);
+}
+.display__copy--done {
+  color: var(--color-accent);
+}
+
 /* --- Error state --------------------------------------------------------- */
 .display--error {
   border-color: rgba(251, 113, 133, 0.55);
@@ -235,7 +259,7 @@ button {
 }
 
 .display--pulse::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;

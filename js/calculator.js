@@ -327,6 +327,19 @@ function flashKey(selector) {
    Click handling
    ---------------------------------------------------------------------------- */
 
+const copyBtnEl = document.getElementById('copyBtn');
+
+copyBtnEl.addEventListener('click', () => {
+  if (state.hasError) return;
+  navigator.clipboard?.writeText(state.displayValue).then(() => {
+    copyBtnEl.classList.add('display__copy--done');
+    window.setTimeout(
+      () => copyBtnEl.classList.remove('display__copy--done'),
+      900,
+    );
+  });
+});
+
 function handleKeypadClick(event) {
   /* closest() lets one listener serve every key, including clicks on
      nested elements such as the SVG inside the backspace button. */
