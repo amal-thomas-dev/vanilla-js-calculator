@@ -270,7 +270,6 @@ function evaluate() {
 
   render();
 }
-
 function backspace() {
   if (state.hasError) {
     resetState();
@@ -278,11 +277,20 @@ function backspace() {
     return;
   }
 
-  if (state.awaitingOperand) return;
+  if (state.awaitingOperand) {
+    if (state.operator !== null) {
+      state.displayValue = formatNumber(state.firstOperand);
+      state.operator = null;
+      state.firstOperand = null;
+      state.awaitingOperand = false;
+      state.expression = '';
+      render();
+    }
+    return;
+  }
 
   let next = state.displayValue.slice(0, -1);
   if (next === '' || next === '-') next = '0';
-
   state.displayValue = next;
   render();
 }
