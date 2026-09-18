@@ -116,7 +116,9 @@ function render() {
   displayEl.textContent = state.displayValue;
   expressionEl.textContent = state.expression;
 
-  decimalKeyEl.disabled = state.hasError || state.displayValue.includes(".");
+  decimalKeyEl.disabled =
+    state.hasError ||
+    (!state.awaitingOperand && state.displayValue.includes("."));
 
   const length = state.displayValue.length;
   displayEl.classList.toggle(
