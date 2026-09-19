@@ -8,6 +8,7 @@
       content="A responsive, keyboard-accessible calculator built with vanilla JavaScript."
     />
     <title>Calculator &middot; Frontend Practicum</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
@@ -24,6 +25,25 @@
         <div class="display" id="displayWrap">
           <p class="display__expression" id="expression"></p>
           <div class="display__main">
+            <!-- new: copy button, right after the value -->
+            <button
+              type="button"
+              class="display__copy"
+              id="copyBtn"
+              aria-label="Copy result to clipboard"
+            >
+              <svg
+                class="key__icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <rect x="9" y="9" width="11" height="11" rx="2" ry="2"></rect>
+                <path
+                  d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                ></path>
+              </svg>
+            </button>
             <svg
               class="display__warning"
               viewBox="0 0 24 24"
@@ -48,8 +68,18 @@
         <!-- Keypad: every button carries one of three data-* attributes
            (data-digit, data-operator, data-action). A single click listener
            reads them via closest('.key'), so adding a key is HTML-only. -->
-        <div class="keypad" id="keypad">
-          <button type="button" class="key key--clear" data-action="clear">
+        <div
+          class="keypad"
+          id="keypad"
+          role="group"
+          aria-label="Calculator keypad"
+        >
+          <button
+            type="button"
+            class="key key--clear"
+            data-action="clear"
+            aria-label="Clear all"
+          >
             AC
           </button>
 
@@ -120,7 +150,9 @@
       <!-- Footer: a visible legend for the keyboard shortcuts. -->
       <footer class="app__footer">
         <p class="app__hint">
-          <kbd>0</kbd>–<kbd>9</kbd> <kbd>+</kbd> <kbd>−</kbd> <kbd>*</kbd>
+          <kbd>0</kbd>–<kbd>9</kbd> <kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd>/<kbd
+            >x</kbd
+          >
           <kbd>/</kbd> <kbd>.</kbd>
           <span class="app__hint-sep" aria-hidden="true">·</span>
           <kbd>Enter</kbd> equals
