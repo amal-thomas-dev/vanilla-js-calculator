@@ -60,7 +60,11 @@ KEYBOARD_MAP.set('Delete', {
 });
 
 function handleKeydown(event) {
+  /* Never hijack browser or OS shortcuts. */
   if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+  const focusedButton = event.target.closest("button");
+  if (focusedButton && (event.key === "Enter" || event.key === " ")) return;
 
   const entry = KEYBOARD_MAP.get(event.key);
   if (!entry) return;
