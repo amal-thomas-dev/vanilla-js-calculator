@@ -111,6 +111,7 @@ const displayEl = document.getElementById('display');
 const expressionEl = document.getElementById('expression');
 const keypadEl = document.getElementById('keypad');
 const decimalKeyEl = keypadEl.querySelector('[data-action="decimal"]');
+const copyBtnEl = document.getElementById('copyBtn');
 
 /* ----------------------------------------------------------------------------
    Rendering
@@ -124,6 +125,8 @@ function render() {
   decimalKeyEl.disabled =
     state.hasError ||
     (!state.awaitingOperand && state.displayValue.includes('.'));
+
+  copyBtnEl.disabled = state.hasError;
 
   const length = state.displayValue.length;
   displayEl.classList.toggle(
@@ -326,8 +329,6 @@ function flashKey(selector) {
 /* ----------------------------------------------------------------------------
    Click handling
    ---------------------------------------------------------------------------- */
-
-const copyBtnEl = document.getElementById('copyBtn');
 
 copyBtnEl.addEventListener('click', () => {
   if (state.hasError) return;
